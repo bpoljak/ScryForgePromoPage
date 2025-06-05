@@ -1,19 +1,55 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
   <head>
-    <title><%= productName %></title>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width<% if (ctx.mode.cordova || ctx.mode.capacitor) { %>, viewport-fit=cover<% } %>"
+    />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
 
-    <meta charset="utf-8">
-    <meta name="description" content="<%= productDescription %>">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="msapplication-tap-highlight" content="no">
-    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width<% if (ctx.mode.cordova || ctx.mode.capacitor) { %>, viewport-fit=cover<% } %>">
+    <title>ScryForge</title>
 
-    <link rel="icon" type="image/png" sizes="128x128" href="icons/favicon-128x128.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="icons/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png">
-    <link rel="icon" type="image/ico" href="favicon.ico">
+    <!-- Primary SEO Tags -->
+    <meta
+      name="description"
+      content="Build and manage your Magic: The Gathering decks and card collection with ScryForge – a powerful and intuitive MTG deck builder."
+    />
+    <meta
+      name="keywords"
+      content="Magic the Gathering, MTG, deck builder, card tracker, commander, standard, edh, scryforge, collection manager"
+    />
+    <meta name="author" content="ScryForge Team" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://scryforgepromo.netlify.app" />
+
+    <!-- Open Graph (Facebook/LinkedIn/Instagram/etc.) -->
+    <meta property="og:title" content="ScryForge – Build Your Ultimate MTG Deck" />
+    <meta
+      property="og:description"
+      content="Track your cards, build decks, and share your MTG builds with the world."
+    />
+    <meta property="og:image" content="https://scryforgepromo.netlify.app/banner.png" />
+    <meta property="og:url" content="https://scryforgepromo.netlify.app" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="ScryForge" />
+
+    <!-- Twitter meta tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="ScryForge – MTG Deck Builder" />
+    <meta
+      name="twitter:description"
+      content="Your new favorite Magic the Gathering deck builder and collection tool."
+    />
+    <meta name="twitter:image" content="https://scryforgepromo.netlify.app/banner.png" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="128x128" href="icons/favicon-128x128.png" />
+    <link rel="icon" type="image/png" sizes="96x96" href="icons/favicon-96x96.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png" />
+    <link rel="icon" type="image/ico" href="favicon.ico" />
   </head>
   <body>
     <!-- quasar:entry-point -->
