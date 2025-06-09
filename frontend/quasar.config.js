@@ -33,6 +33,15 @@ export default defineConfig((/* ctx */) => {
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#build
     build: {
+      extendViteConf(viteConf) {
+        viteConf.plugins.push({
+          name: 'remove-ga-tag',
+          transformIndexHtml(html) {
+            return html.replace(/<script[^>]*googletagmanager[^>]*><\/script>/gi, '')
+          },
+        })
+      },
+
       target: {
         browser: ['es2022', 'firefox115', 'chrome115', 'safari14'],
         node: 'node20',

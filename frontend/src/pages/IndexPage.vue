@@ -7,6 +7,7 @@
           <img src="~assets/page_art2.png" class="hero-img" />
           <div class="absolute hero-overlay animate__animated animate__fadeInUp animate__delay-1s">
             <div class="text-white text-center q-px-md">
+              <div class="text-h4 text-bold hero-logo">ScryForge</div>
               <div class="text-subtitle1 hero-subtitle">Master Your Collection</div>
               <div class="text-h4 text-bold hero-title">
                 Build decks. Track cards. Rule the multiverse.
@@ -15,7 +16,7 @@
                 <q-btn
                   label="Start building"
                   color="primary"
-                  class="text-black bg-white rounded-borders"
+                  class="text-black bg-white rounded-borders hero_btn"
                   to="/register"
                   no-caps
                 />
@@ -23,7 +24,7 @@
                   label="Try it out"
                   flat
                   color="white"
-                  class="rounded-borders"
+                  class="rounded-borders hero_btn"
                   href="https://scryforge.netlify.app/#/"
                   target="_blank"
                   no-caps
@@ -392,10 +393,11 @@ const problems = [
   position: absolute;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center;
+  padding-top: 0;
+  padding-bottom: 0;
   align-items: center;
   text-align: center;
-  padding-top: 180px;
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), transparent 70%);
 }
 
@@ -482,6 +484,10 @@ const problems = [
 /* White buttons with neon glow */
 .q-btn.bg-white:hover {
   box-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
+}
+
+.hero_btn {
+  width: 160px;
 }
 
 /* Responsive button group */

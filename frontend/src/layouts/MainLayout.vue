@@ -45,11 +45,84 @@
         </div>
       </div>
     </q-footer>
+    <q-dialog v-model="showCookiePopup" persistent position="bottom">
+      <q-card class="cookie-popup q-pa-md text-white">
+        <div class="row items-center justify-between q-gutter-md">
+          <div class="col text-body2">
+            This site uses cookies to improve your experience. Accept or reject?
+          </div>
+          <div class="row q-gutter-sm">
+            <q-btn flat label="Reject" color="white" @click="rejectCookies" class="cookie-btn" />
+            <q-btn
+              unelevated
+              label="Accept"
+              color="primary"
+              @click="acceptCookies"
+              class="cookie-btn"
+            />
+          </div>
+        </div>
+      </q-card>
+    </q-dialog>
   </q-layout>
 </template>
 
 <script setup>
-// no logic needed
+/* global gtag */
+
+import { ref, onMounted } from 'vue'
+
+const showCookiePopup = ref(false)
+const GA_ID = 'G-W7C5EHH329'
+
+onMounted(() => {
+  const c = localStorage.getItem('cookiesChoice')
+  if (c === 'accepted') loadGoogleAnalytics()
+  else if (!c) showCookiePopup.value = true
+})
+
+function acceptCookies() {
+  localStorage.setItem('cookiesChoice', 'accepted')
+  showCookiePopup.value = false
+  window['ga-disable-G-W7C5EHH329'] = false
+  console.log('[TEST] acceptCookies triggered')
+  loadGoogleAnalytics()
+}
+
+function rejectCookies() {
+  localStorage.setItem('cookiesChoice', 'rejected')
+  showCookiePopup.value = false
+  window['ga-disable-G-W7C5EHH329'] = true
+  window.gtag = function () {}
+  document.cookie = '_ga=; Max-Age=0; path=/'
+  document.cookie = '_gid=; Max-Age=0; path=/'
+
+  // Remove GA scripts again in case injected
+  document.querySelectorAll('script[src*="googletagmanager.com"]').forEach((s) => s.remove())
+}
+
+function loadGoogleAnalytics() {
+  if (window.gtagLoaded || window['ga-disable-G-W7C5EHH329']) return
+  window.gtagLoaded = true
+
+  const scriptTag = document.createElement('script')
+  scriptTag.setAttribute('async', '')
+  scriptTag.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`
+  scriptTag.onerror = () => {
+    console.error('❌ GA script failed to load')
+  }
+  document.head.appendChild(scriptTag)
+
+  scriptTag.onload = () => {
+    console.log('✅ GA script loaded after accept')
+    window.dataLayer = window.dataLayer || []
+    window.gtag = function () {
+      window.dataLayer.push(arguments)
+    }
+    gtag('js', new Date())
+    gtag('config', GA_ID)
+  }
+}
 </script>
 
 <style scoped>
@@ -76,5 +149,19 @@
 }
 .footer-link:hover {
   text-decoration: underline;
+}
+
+.cookie-popup {
+  background: rgba(40, 40, 40, 0.95);
+  border-radius: 12px;
+  max-width: 700px;
+  width: 90%;
+  margin: auto;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.4);
+}
+
+.cookie-btn {
+  border-radius: 8px;
+  padding: 6px 16px;
 }
 </style>
