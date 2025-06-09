@@ -1,44 +1,22 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <script>
-      ;(function () {
-        try {
-          const consent = localStorage.getItem('cookiesChoice')
-          console.log('[GA DEBUG] Consent status:', consent)
-
-          if (consent === 'accepted') {
-            const s = document.createElement('script')
-            s.async = true
-            s.src = 'https://www.googletagmanager.com/gtag/js?id=G-W7C5EHH329'
-
-            s.onload = function () {
-              console.log('[GA DEBUG] GA loaded')
-              window.dataLayer = window.dataLayer || []
-              function gtag() {
-                window.dataLayer.push(arguments)
-              }
-              window.gtag = gtag
-              gtag('js', new Date())
-              gtag('config', 'G-W7C5EHH329')
-            }
-
-            s.onerror = function () {
-              console.warn('❌ GA script failed to load (onerror)')
-              window.gtag = function () {}
-            }
-
-            document.head.appendChild(s)
-          } else {
-            console.log('[GA DEBUG] Consent not given or rejected – no GA loaded')
-            window.gtag = function () {}
-          }
-        } catch (err) {
-          console.error('❌ GA init failed with error:', err)
-          window.gtag = function () {}
-        }
-      })()
+    <script type="text/plain" data-cookieconsent="analytics" id="ga-script">
+      (function() {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){ dataLayer.push(arguments); }
+        window.gtag = gtag;
+        gtag('js', new Date());
+        gtag('config', 'G-W7C5EHH329');
+      })();
     </script>
+    <script
+      type="text/plain"
+      data-cookieconsent="analytics"
+      id="ga-loader"
+      src="https://www.googletagmanager.com/gtag/js?id=G-W7C5EHH329"
+    ></script>
+
     <meta charset="utf-8" />
     <meta
       name="viewport"

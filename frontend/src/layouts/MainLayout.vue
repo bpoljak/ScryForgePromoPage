@@ -75,12 +75,26 @@ const showCookiePopup = ref(false)
 onMounted(() => {
   const c = localStorage.getItem('cookiesChoice')
   if (!c) showCookiePopup.value = true
+  else if (c === 'accepted') {
+    // Force activate analytics
+    acceptCookies()
+  }
 })
 
 function acceptCookies() {
   localStorage.setItem('cookiesChoice', 'accepted')
   showCookiePopup.value = false
-  window.location.reload(true)
+
+  const scripts = document.querySelectorAll('[data-cookieconsent="analytics"]')
+  scripts.forEach((tag) => {
+    if (tag.tagName === 'SCRIPT' && tag.type === 'text/plain') {
+      const newScript = document.createElement('script')
+      newScript.type = 'text/javascript'
+      if (tag.src) newScript.src = tag.src
+      else newScript.textContent = tag.textContent
+      document.head.appendChild(newScript)
+    }
+  })
 }
 
 function rejectCookies() {
