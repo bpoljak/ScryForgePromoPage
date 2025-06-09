@@ -2,16 +2,17 @@
   publish = "dist/spa"
   command = "quasar build"
 
-[[redirects]]
-  from = "/api/*"
-  to = "http://localhost:3000/api/:splat"
-  status = 200
-  force = true
-
 [[headers]]
   for = "/*"
   [headers.values]
-    Content-Security-Policy = "default-src 'self'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com; img-src 'self' https://www.google-analytics.com; style-src 'self' 'unsafe-inline';"
+    Content-Security-Policy = '''
+      default-src 'self';
+      script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com 'unsafe-inline';
+      connect-src 'self' https://www.google-analytics.com;
+      img-src 'self' https://www.google-analytics.com data:;
+      style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com;
+      font-src 'self' https://cdnjs.cloudflare.com;
+    '''
     Referrer-Policy = "strict-origin-when-cross-origin"
     X-Content-Type-Options = "nosniff"
     X-Frame-Options = "DENY"
