@@ -52,11 +52,7 @@
         <div class="q-mt-xl animate__animated animate__fadeInUp">
           <div class="text-h5 text-white text-center q-mb-md">Why choose ScryForge?</div>
           <div class="row q-col-gutter-lg justify-center">
-            <div
-              class="col-12 col-sm-6 col-md-4"
-              v-for="(benefit, index) in benefits"
-              :key="index"
-            >
+            <div class="col-12 col-sm-6 col-md-4" v-for="(benefit, index) in benefits" :key="index">
               <q-card flat bordered class="q-pa-md bg-grey-10 text-white">
                 <q-icon :name="benefit.icon" size="lg" class="q-mb-sm" />
                 <div class="text-subtitle1">{{ benefit.title }}</div>
@@ -91,11 +87,7 @@
             We solve your everyday deckbuilding problems
           </div>
           <div class="row q-col-gutter-lg justify-center">
-            <div
-              class="col-12 col-sm-6 col-md-6"
-              v-for="(issue, index) in problems"
-              :key="index"
-            >
+            <div class="col-12 col-sm-6 col-md-6" v-for="(issue, index) in problems" :key="index">
               <q-card flat bordered class="q-pa-md bg-grey-9 text-white">
                 <div class="text-subtitle1 q-mb-sm">❓ {{ issue.question }}</div>
                 <div class="text-body1 text-grey-4">{{ issue.answer }}</div>
@@ -226,16 +218,17 @@ useMeta({
   meta: [
     {
       name: 'description',
-      content: 'Build and manage your Magic: The Gathering decks and card collection with ScryForge.'
+      content:
+        'Build and manage your Magic: The Gathering decks and card collection with ScryForge.',
     },
     {
       name: 'keywords',
-      content: 'MTG, Magic the Gathering, deck builder, card tracker, collection tool, ScryForge'
+      content: 'MTG, Magic the Gathering, deck builder, card tracker, collection tool, ScryForge',
     },
     { property: 'og:title', content: 'ScryForge – Build Your Ultimate MTG Deck' },
     {
       property: 'og:description',
-      content: 'Track your cards, build decks, and share your MTG builds with the world.'
+      content: 'Track your cards, build decks, and share your MTG builds with the world.',
     },
     { property: 'og:image', content: 'https://scryforge.netlify.app/banner.png' },
     { property: 'og:url', content: 'https://scryforge.netlify.app/' },
@@ -245,18 +238,18 @@ useMeta({
     { name: 'twitter:title', content: 'ScryForge – MTG Deck Builder' },
     {
       name: 'twitter:description',
-      content: 'Your new favorite Magic the Gathering deck builder and collection tool.'
+      content: 'Your new favorite Magic the Gathering deck builder and collection tool.',
     },
     { name: 'twitter:image', content: 'https://scryforge.netlify.app/banner.png' },
-    { name: 'robots', content: 'index, follow' }
-  ]
+    { name: 'robots', content: 'index, follow' },
+  ],
 })
 
 const formRef = ref(null)
 const form = ref({
   name: '',
   email: '',
-  message: ''
+  message: '',
 })
 
 function sendEmail() {
@@ -267,7 +260,7 @@ function sendEmail() {
   if (!serviceId || !templateId || !userId) {
     $q.notify({
       type: 'negative',
-      message: 'Missing EmailJS environment variables.'
+      message: 'Missing EmailJS environment variables.',
     })
     return
   }
@@ -276,14 +269,15 @@ function sendEmail() {
     from_name: form.value.name,
     from_email: form.value.email,
     message: form.value.message,
-    email: form.value.email // Ovo je za "To Email" polje u EmailJS templateu
+    email: form.value.email, // Ovo je za "To Email" polje u EmailJS templateu
   }
 
-  emailjs.send(serviceId, templateId, templateParams, userId)
+  emailjs
+    .send(serviceId, templateId, templateParams, userId)
     .then(() => {
       $q.notify({
         type: 'positive',
-        message: 'Message sent successfully!'
+        message: 'Message sent successfully!',
       })
       formRef.value.reset()
     })
@@ -291,7 +285,7 @@ function sendEmail() {
       console.error(error)
       $q.notify({
         type: 'negative',
-        message: 'Failed to send message. Check EmailJS template or credentials.'
+        message: 'Failed to send message. Check EmailJS template or credentials.',
       })
     })
 }
@@ -300,67 +294,67 @@ const benefits = [
   {
     icon: 'collections_bookmark',
     title: 'Deck Management',
-    desc: 'Easily organize all your decks in one place.'
+    desc: 'Easily organize all your decks in one place.',
   },
   {
     icon: 'inventory',
     title: 'Collection Tracking',
-    desc: 'Keep track of all cards you own across sets.'
+    desc: 'Keep track of all cards you own across sets.',
   },
   {
     icon: 'public',
     title: 'Community Decks',
-    desc: 'Discover trending decks and share your own builds.'
-  }
+    desc: 'Discover trending decks and share your own builds.',
+  },
 ]
 
 const testimonials = [
   {
     quote: 'ScryForge helped me prep for tournaments faster than ever.',
-    name: 'MTG Arena Grinder'
+    name: 'MTG Arena Grinder',
   },
   {
     quote: 'I finally have a clear view of my whole collection.',
-    name: 'Commander Fanatic'
+    name: 'Commander Fanatic',
   },
   {
     quote: 'Simple, beautiful, and effective.',
-    name: 'Modern Player'
-  }
+    name: 'Modern Player',
+  },
 ]
 
 const faqs = [
   {
     q: 'Is ScryForge free?',
-    a: 'Yes! You can build decks and track your collection completely free.'
+    a: 'Yes! You can build decks and track your collection completely free.',
   },
   {
     q: 'Can I use it on mobile?',
-    a: 'Absolutely. ScryForge works seamlessly on phones and tablets.'
+    a: 'Absolutely. ScryForge works seamlessly on phones and tablets.',
   },
   {
     q: 'Does it support Commander format?',
-    a: 'Of course! We support all major MTG formats.'
-  }
+    a: 'Of course! We support all major MTG formats.',
+  },
 ]
 
 const problems = [
   {
     question: 'Do you lose track of your decklists?',
-    answer: 'ScryForge saves and organizes every deck you build.'
+    answer: 'ScryForge saves and organizes every deck you build.',
   },
   {
     question: 'Want to find new card ideas?',
-    answer: 'Browse public decks by format, theme, or popularity.'
+    answer: 'Browse public decks by format, theme, or popularity.',
   },
   {
     question: 'Need to know how many copies you own?',
-    answer: 'Track quantities with our collection manager.'
+    answer: 'Track quantities with our collection manager.',
   },
   {
     question: 'Hate exporting to Excel?',
-    answer: 'No spreadsheets needed – everything is managed visually.'
-  }
+    answer: 'No spreadsheets needed – everything is managed visually.',
+  },
 ]
 </script>
 
@@ -368,14 +362,16 @@ const problems = [
 @import 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css';
 
 .bg-dark {
-  background: radial-gradient(circle at top center, #1c1c1c, #101010);
+  background: radial-gradient(circle at top center, #1e1e1e, #0a0a0a);
+  color: #ffffff;
 }
 
+/* Hero */
 .hero-img-wrapper {
   position: relative;
   border-radius: 25px;
   overflow: hidden;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
   max-height: 450px;
 }
 
@@ -400,15 +396,34 @@ const problems = [
   align-items: center;
   text-align: center;
   padding-top: 180px;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.45), transparent 70%);
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), transparent 70%);
 }
 
 .hero-title {
   font-size: 2rem;
+  font-weight: 700;
 }
 
 .hero-subtitle {
   font-size: 1rem;
+  opacity: 0.8;
+}
+
+/* Cards / Glass */
+.q-card,
+.testimonial-card {
+  background: rgba(35, 35, 35, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+  transition: all 0.25s ease;
+  border-radius: 16px;
+}
+
+.q-card:hover,
+.testimonial-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 20px rgba(0, 255, 255, 0.1);
 }
 
 .testimonial-card {
@@ -419,21 +434,76 @@ const problems = [
   height: 100%;
 }
 
+/* FAQ Arrow Fix + Animation */
+.faq-item .q-expansion-item__toggle-icon {
+  margin-left: auto !important;
+  margin-right: 16px !important;
+  color: #00e6e6;
+  transition: transform 0.3s ease;
+}
+
+.faq-item .q-expansion-item__toggle-icon:hover {
+  transform: scale(1.2) rotate(90deg);
+}
+
+.faq-item .q-expansion-item__container:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Inputs + Forms */
+.q-input,
+.q-textarea {
+  border-radius: 10px;
+  background-color: rgba(40, 40, 40, 0.9);
+  backdrop-filter: blur(6px);
+  transition: box-shadow 0.2s ease;
+}
+
+.q-input:hover,
+.q-textarea:hover {
+  box-shadow: 0 0 0 2px rgba(0, 255, 255, 0.3);
+}
+
+/* Buttons */
+.q-btn {
+  padding: 12px 28px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 50px;
+  transition: all 0.25s ease;
+  box-shadow: 0 0 0 rgba(0, 255, 255, 0);
+}
+
+.q-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 8px rgba(0, 255, 255, 0.3);
+}
+
+/* White buttons with neon glow */
+.q-btn.bg-white:hover {
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
+}
+
+/* Responsive button group */
 @media (max-width: 768px) {
   .hero-title {
     font-size: 1.4rem;
   }
+
   .hero-subtitle {
     font-size: 0.9rem;
   }
+
   .hero-overlay {
     padding-top: 100px;
   }
-}
 
-.faq-item .q-expansion-item__toggle-icon {
-  margin-left: auto !important;
-  margin-right: 16px !important;
-}
+  .q-btn {
+    width: 100%;
+  }
 
+  .q-btn + .q-btn {
+    margin-top: 8px;
+  }
+}
 </style>
