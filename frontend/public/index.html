@@ -66,7 +66,13 @@
           gtag('js', new Date())
           gtag('config', 'G-W7C5EHH329')
         }
+        s.onerror = () => {
+          console.warn('❌ GA script failed to load. Falling back to noop gtag.')
+          window.gtag = function () {}
+        }
         document.head.appendChild(s)
+      } else {
+        window.gtag = function () {}
       }
     </script>
   </head>
