@@ -51,6 +51,24 @@
     <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png" />
     <link rel="icon" type="image/ico" href="favicon.ico" />
+    <script>
+      const consent = localStorage.getItem('cookiesChoice')
+      if (consent === 'accepted') {
+        const s = document.createElement('script')
+        s.async = true
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-W7C5EHH329'
+        s.onload = () => {
+          window.dataLayer = window.dataLayer || []
+          function gtag() {
+            window.dataLayer.push(arguments)
+          }
+          window.gtag = gtag
+          gtag('js', new Date())
+          gtag('config', 'G-W7C5EHH329')
+        }
+        document.head.appendChild(s)
+      }
+    </script>
   </head>
   <body>
     <!-- quasar:entry-point -->

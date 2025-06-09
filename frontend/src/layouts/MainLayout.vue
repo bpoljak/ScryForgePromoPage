@@ -68,60 +68,24 @@
 </template>
 
 <script setup>
-/* global gtag */
-
 import { ref, onMounted } from 'vue'
 
 const showCookiePopup = ref(false)
-const GA_ID = 'G-W7C5EHH329'
 
 onMounted(() => {
   const c = localStorage.getItem('cookiesChoice')
-  if (c === 'accepted') loadGoogleAnalytics()
-  else if (!c) showCookiePopup.value = true
+  if (!c) showCookiePopup.value = true
 })
 
 function acceptCookies() {
   localStorage.setItem('cookiesChoice', 'accepted')
   showCookiePopup.value = false
-  window['ga-disable-G-W7C5EHH329'] = false
-  console.log('[TEST] acceptCookies triggered')
-  loadGoogleAnalytics()
+  location.reload()
 }
 
 function rejectCookies() {
   localStorage.setItem('cookiesChoice', 'rejected')
   showCookiePopup.value = false
-  window['ga-disable-G-W7C5EHH329'] = true
-  window.gtag = function () {}
-  document.cookie = '_ga=; Max-Age=0; path=/'
-  document.cookie = '_gid=; Max-Age=0; path=/'
-
-  // Remove GA scripts again in case injected
-  document.querySelectorAll('script[src*="googletagmanager.com"]').forEach((s) => s.remove())
-}
-
-function loadGoogleAnalytics() {
-  if (window.gtagLoaded || window['ga-disable-G-W7C5EHH329']) return
-  window.gtagLoaded = true
-
-  const scriptTag = document.createElement('script')
-  scriptTag.setAttribute('async', '')
-  scriptTag.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`
-  scriptTag.onerror = () => {
-    console.error('❌ GA script failed to load')
-  }
-  document.head.appendChild(scriptTag)
-
-  scriptTag.onload = () => {
-    console.log('✅ GA script loaded after accept')
-    window.dataLayer = window.dataLayer || []
-    window.gtag = function () {
-      window.dataLayer.push(arguments)
-    }
-    gtag('js', new Date())
-    gtag('config', GA_ID)
-  }
 }
 </script>
 
