@@ -73,33 +73,53 @@ import { ref, onMounted } from 'vue'
 const showCookiePopup = ref(false)
 
 onMounted(() => {
-  const c = localStorage.getItem('cookiesChoice')
-  if (!c) showCookiePopup.value = true
-  else if (c === 'accepted') {
-    // Force activate analytics
-    acceptCookies()
+  const consent = localStorage.getItem('cookiesChoice')
+  if (consent === 'accepted') {
+    injectGA()
+  } else if (!consent) {
+    showCookiePopup.value = true
   }
 })
 
 function acceptCookies() {
   localStorage.setItem('cookiesChoice', 'accepted')
   showCookiePopup.value = false
-
-  const scripts = document.querySelectorAll('[data-cookieconsent="analytics"]')
-  scripts.forEach((tag) => {
-    if (tag.tagName === 'SCRIPT' && tag.type === 'text/plain') {
-      const newScript = document.createElement('script')
-      newScript.type = 'text/javascript'
-      if (tag.src) newScript.src = tag.src
-      else newScript.textContent = tag.textContent
-      document.head.appendChild(newScript)
-    }
-  })
+  injectGA()
 }
 
 function rejectCookies() {
   localStorage.setItem('cookiesChoice', 'rejected')
   showCookiePopup.value = false
+}
+
+// 🔥 Konačna funkcija za umetanje GA skripte
+function injectGA() {
+  if (window.gtagInjected) return
+  window.gtagInjected = true
+
+  const script = document.createElement('script')
+  script.async = true
+  script.src = 'https://www.googletagmanager.com/gtag/js?id=G-W7C5EHH329'
+  script.referrerPolicy = 'strict-origin-when-cross-origin'
+  script.crossOrigin = 'anonymous'
+
+  script.onload = () => {
+    console.log('[GA] Script loaded')
+    window.dataLayer = window.dataLayer || []
+    function gtag() {
+      window.dataLayer.push(arguments)
+    }
+    window.gtag = gtag
+    gtag('js', new Date())
+    gtag('config', 'G-W7C5EHH329')
+  }
+
+  script.onerror = () => {
+    console.warn('[GA] Failed to load GA script')
+    window.gtag = function () {}
+  }
+
+  document.head.appendChild(script)
 }
 </script>
 
