@@ -52,28 +52,34 @@
     <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png" />
     <link rel="icon" type="image/ico" href="favicon.ico" />
     <script>
-      const consent = localStorage.getItem('cookiesChoice')
-      if (consent === 'accepted') {
-        const s = document.createElement('script')
-        s.async = true
-        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-W7C5EHH329'
-        s.onload = () => {
-          window.dataLayer = window.dataLayer || []
-          function gtag() {
-            window.dataLayer.push(arguments)
+      window.addEventListener('DOMContentLoaded', () => {
+        const consent = localStorage.getItem('cookiesChoice')
+        console.log('[GA DEBUG] Consent:', consent)
+
+        if (consent === 'accepted') {
+          const s = document.createElement('script')
+          s.async = true
+          s.src = 'https://www.googletagmanager.com/gtag/js?id=G-W7C5EHH329'
+          s.onload = () => {
+            console.log('[GA DEBUG] GA script loaded')
+            window.dataLayer = window.dataLayer || []
+            function gtag() {
+              window.dataLayer.push(arguments)
+            }
+            window.gtag = gtag
+            gtag('js', new Date())
+            gtag('config', 'G-W7C5EHH329')
           }
-          window.gtag = gtag
-          gtag('js', new Date())
-          gtag('config', 'G-W7C5EHH329')
-        }
-        s.onerror = () => {
-          console.warn('❌ GA script failed to load. Falling back to noop gtag.')
+          s.onerror = () => {
+            console.warn('❌ GA script failed to load. Falling back to noop gtag.')
+            window.gtag = function () {}
+          }
+          document.head.appendChild(s)
+        } else {
+          console.log('[GA DEBUG] Consent not given or rejected. No GA.')
           window.gtag = function () {}
         }
-        document.head.appendChild(s)
-      } else {
-        window.gtag = function () {}
-      }
+      })
     </script>
   </head>
   <body>
