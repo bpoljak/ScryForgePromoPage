@@ -80,7 +80,7 @@ onMounted(() => {
 function acceptCookies() {
   localStorage.setItem('cookiesChoice', 'accepted')
   showCookiePopup.value = false
-  window.location.reload()
+  window.location.reload(true)
 }
 
 function rejectCookies() {
