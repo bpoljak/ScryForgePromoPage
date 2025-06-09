@@ -4,7 +4,7 @@
       <div class="col-12 col-md-10">
         <!-- Hero section -->
         <div class="hero-img-wrapper">
-          <img src="~assets/scryforge_intro.jpg" class="hero-img" />
+          <img src="~assets/page_art2.png" class="hero-img" />
           <div class="absolute hero-overlay animate__animated animate__fadeInUp animate__delay-1s">
             <div class="text-white text-center q-px-md">
               <div class="text-subtitle1 hero-subtitle">Master Your Collection</div>
@@ -52,7 +52,11 @@
         <div class="q-mt-xl animate__animated animate__fadeInUp">
           <div class="text-h5 text-white text-center q-mb-md">Why choose ScryForge?</div>
           <div class="row q-col-gutter-lg justify-center">
-            <div class="col-12 col-sm-6 col-md-4" v-for="(benefit, index) in benefits" :key="index">
+            <div
+              class="col-12 col-sm-6 col-md-4"
+              v-for="(benefit, index) in benefits"
+              :key="index"
+            >
               <q-card flat bordered class="q-pa-md bg-grey-10 text-white">
                 <q-icon :name="benefit.icon" size="lg" class="q-mb-sm" />
                 <div class="text-subtitle1">{{ benefit.title }}</div>
@@ -87,7 +91,11 @@
             We solve your everyday deckbuilding problems
           </div>
           <div class="row q-col-gutter-lg justify-center">
-            <div class="col-12 col-sm-6 col-md-6" v-for="(issue, index) in problems" :key="index">
+            <div
+              class="col-12 col-sm-6 col-md-6"
+              v-for="(issue, index) in problems"
+              :key="index"
+            >
               <q-card flat bordered class="q-pa-md bg-grey-9 text-white">
                 <div class="text-subtitle1 q-mb-sm">❓ {{ issue.question }}</div>
                 <div class="text-body1 text-grey-4">{{ issue.answer }}</div>
@@ -126,7 +134,6 @@
             target="_blank"
             no-caps
           />
-
           <div class="text-caption text-grey-5">No payment required. Ever.</div>
         </div>
 
@@ -137,18 +144,69 @@
             v-for="(faq, index) in faqs"
             :key="index"
             expand-separator
-            class="bg-grey-9 text-white q-mb-sm"
+            switch-toggle-side
+            class="bg-grey-9 text-white q-mb-sm faq-item"
+            expand-icon="keyboard_arrow_down"
+            expanded-icon="keyboard_arrow_up"
           >
             <template #header>
-              <div class="text-subtitle1 text-weight-bold q-py-sm q-px-md">
-                {{ faq.q }}
+              <div class="row items-center justify-between q-px-md q-py-sm full-width">
+                <div class="text-subtitle1 text-weight-bold">
+                  {{ faq.q }}
+                </div>
               </div>
             </template>
-
             <div class="q-px-md q-pb-sm text-grey-4">
               {{ faq.a }}
             </div>
           </q-expansion-item>
+        </div>
+
+        <!-- Contact -->
+        <div class="q-mt-xl animate__animated animate__fadeInUp">
+          <div class="text-h5 text-white text-center q-mb-md">Have a question or suggestion?</div>
+          <div class="text-body1 text-grey-4 text-center q-mb-lg">
+            Send us a message and we’ll get back to you!
+          </div>
+          <q-form @submit.prevent="sendEmail" class="q-gutter-md" ref="formRef">
+            <div class="row q-col-gutter-md">
+              <div class="col-12 col-md-6">
+                <q-input
+                  v-model="form.name"
+                  label="Your Name"
+                  dense
+                  outlined
+                  class="bg-grey-9 text-white"
+                  :rules="[(val) => !!val || 'Name is required']"
+                />
+              </div>
+              <div class="col-12 col-md-6">
+                <q-input
+                  v-model="form.email"
+                  label="Your Email"
+                  type="email"
+                  dense
+                  outlined
+                  class="bg-grey-9 text-white"
+                  :rules="[(val) => !!val || 'Email is required']"
+                />
+              </div>
+              <div class="col-12">
+                <q-input
+                  v-model="form.message"
+                  type="textarea"
+                  label="Your Message"
+                  outlined
+                  class="bg-grey-9 text-white"
+                  autogrow
+                  :rules="[(val) => !!val || 'Message is required']"
+                />
+              </div>
+              <div class="col-12 text-center">
+                <q-btn label="Send" type="submit" color="primary" class="text-black bg-white" />
+              </div>
+            </div>
+          </q-form>
         </div>
       </div>
     </div>
@@ -156,24 +214,28 @@
 </template>
 
 <script setup>
+import { ref, getCurrentInstance } from 'vue'
+import emailjs from '@emailjs/browser'
 import { useMeta } from 'quasar'
+
+const { proxy } = getCurrentInstance()
+const $q = proxy.$q
 
 useMeta({
   title: 'ScryForge – MTG Deck Builder & Collection Tracker',
   meta: [
     {
       name: 'description',
-      content:
-        'Build and manage your Magic: The Gathering decks and card collection with ScryForge.',
+      content: 'Build and manage your Magic: The Gathering decks and card collection with ScryForge.'
     },
     {
       name: 'keywords',
-      content: 'MTG, Magic the Gathering, deck builder, card tracker, collection tool, ScryForge',
+      content: 'MTG, Magic the Gathering, deck builder, card tracker, collection tool, ScryForge'
     },
     { property: 'og:title', content: 'ScryForge – Build Your Ultimate MTG Deck' },
     {
       property: 'og:description',
-      content: 'Track your cards, build decks, and share your MTG builds with the world.',
+      content: 'Track your cards, build decks, and share your MTG builds with the world.'
     },
     { property: 'og:image', content: 'https://scryforge.netlify.app/banner.png' },
     { property: 'og:url', content: 'https://scryforge.netlify.app/' },
@@ -183,69 +245,122 @@ useMeta({
     { name: 'twitter:title', content: 'ScryForge – MTG Deck Builder' },
     {
       name: 'twitter:description',
-      content: 'Your new favorite Magic the Gathering deck builder and collection tool.',
+      content: 'Your new favorite Magic the Gathering deck builder and collection tool.'
     },
     { name: 'twitter:image', content: 'https://scryforge.netlify.app/banner.png' },
-    { name: 'robots', content: 'index, follow' },
-  ],
+    { name: 'robots', content: 'index, follow' }
+  ]
 })
+
+const formRef = ref(null)
+const form = ref({
+  name: '',
+  email: '',
+  message: ''
+})
+
+function sendEmail() {
+  const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID
+  const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID
+  const userId = import.meta.env.VITE_EMAILJS_USER_ID
+
+  if (!serviceId || !templateId || !userId) {
+    $q.notify({
+      type: 'negative',
+      message: 'Missing EmailJS environment variables.'
+    })
+    return
+  }
+
+  const templateParams = {
+    from_name: form.value.name,
+    from_email: form.value.email,
+    message: form.value.message,
+    email: form.value.email // Ovo je za "To Email" polje u EmailJS templateu
+  }
+
+  emailjs.send(serviceId, templateId, templateParams, userId)
+    .then(() => {
+      $q.notify({
+        type: 'positive',
+        message: 'Message sent successfully!'
+      })
+      formRef.value.reset()
+    })
+    .catch((error) => {
+      console.error(error)
+      $q.notify({
+        type: 'negative',
+        message: 'Failed to send message. Check EmailJS template or credentials.'
+      })
+    })
+}
 
 const benefits = [
   {
     icon: 'collections_bookmark',
     title: 'Deck Management',
-    desc: 'Easily organize all your decks in one place.',
+    desc: 'Easily organize all your decks in one place.'
   },
   {
     icon: 'inventory',
     title: 'Collection Tracking',
-    desc: 'Keep track of all cards you own across sets.',
+    desc: 'Keep track of all cards you own across sets.'
   },
   {
     icon: 'public',
     title: 'Community Decks',
-    desc: 'Discover trending decks and share your own builds.',
-  },
+    desc: 'Discover trending decks and share your own builds.'
+  }
 ]
 
 const testimonials = [
   {
     quote: 'ScryForge helped me prep for tournaments faster than ever.',
-    name: 'MTG Arena Grinder',
+    name: 'MTG Arena Grinder'
   },
-  { quote: 'I finally have a clear view of my whole collection.', name: 'Commander Fanatic' },
-  { quote: 'Simple, beautiful, and effective.', name: 'Modern Player' },
+  {
+    quote: 'I finally have a clear view of my whole collection.',
+    name: 'Commander Fanatic'
+  },
+  {
+    quote: 'Simple, beautiful, and effective.',
+    name: 'Modern Player'
+  }
 ]
 
 const faqs = [
   {
     q: 'Is ScryForge free?',
-    a: 'Yes! You can build decks and track your collection completely free.',
+    a: 'Yes! You can build decks and track your collection completely free.'
   },
   {
     q: 'Can I use it on mobile?',
-    a: 'Absolutely. ScryForge works seamlessly on phones and tablets.',
+    a: 'Absolutely. ScryForge works seamlessly on phones and tablets.'
   },
-  { q: 'Does it support Commander format?', a: 'Of course! We support all major MTG formats.' },
+  {
+    q: 'Does it support Commander format?',
+    a: 'Of course! We support all major MTG formats.'
+  }
 ]
 
 const problems = [
   {
     question: 'Do you lose track of your decklists?',
-    answer: 'ScryForge saves and organizes every deck you build.',
+    answer: 'ScryForge saves and organizes every deck you build.'
   },
   {
     question: 'Want to find new card ideas?',
-    answer: 'Browse public decks by format, theme, or popularity.',
+    answer: 'Browse public decks by format, theme, or popularity.'
   },
   {
     question: 'Need to know how many copies you own?',
-    answer: 'Track quantities with our collection manager.',
+    answer: 'Track quantities with our collection manager.'
   },
   {
     question: 'Hate exporting to Excel?',
-    answer: 'No spreadsheets needed – everything is managed visually.',
-  },
+    answer: 'No spreadsheets needed – everything is managed visually.'
+  }
 ]
 </script>
 
@@ -308,13 +423,17 @@ const problems = [
   .hero-title {
     font-size: 1.4rem;
   }
-
   .hero-subtitle {
     font-size: 0.9rem;
   }
-
   .hero-overlay {
     padding-top: 100px;
   }
 }
+
+.faq-item .q-expansion-item__toggle-icon {
+  margin-left: auto !important;
+  margin-right: 16px !important;
+}
+
 </style>
